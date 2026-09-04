@@ -1,0 +1,54 @@
+//9-3-26
+//Alexander W Kazantzis
+//String Calculator
+#include <cassert>
+#include <string>
+#include <iostream>
+using namespace std;
+ 
+
+
+int StrCalc(string str) {
+	// input string of numbers separated by commas
+	// return the sum of the numbers in the string
+	
+	int sum = 0;
+	while (true) {
+		
+		if (str.empty()) { //if the string is empty, return 0
+			return 0;
+		}
+		else if (str.find(',') != string::npos) {
+			// Process comma-separated numbers
+			size_t pos = str.find(',');
+			string left = str.substr(0, pos);
+			string right = str.substr(pos + 1);
+			sum += stoi(left);
+			str = right;
+			return sum + StrCalc(str); // Recursively call StrCalc on the remaining string
+		}
+		else {
+			// Process single number
+			sum += stoi(str); // Convert string to integer and add to sum
+			return sum;
+		}
+		
+	}
+}
+ 
+int main() {
+	string str;
+	cout << "Enter a string of numbers separated by commas: ";
+	cin >> str; //user inputs the numbers
+
+	int sum = StrCalc(str); //call the StrCalc function to calculate the sum of the numbers in the string
+	cout << "The sum of the numbers in the string is: " << sum << endl; //display the sum of the numbers in the string
+
+	assert(StrCalc("") == 0);
+	assert(StrCalc("0") == 0);
+	assert(StrCalc("1") == 1);
+	assert(StrCalc("1,2") == 3);
+	assert(StrCalc("4,5,6") == 15);
+	
+	
+}
